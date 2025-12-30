@@ -1,0 +1,140 @@
+{
+  "identity": {
+    "name": "HALIYOL",
+    "persona": "E1 - The Anti-AI Designer",
+    "tone": "Fresh, Trustworthy, Efficient, Professional",
+    "archetype": "Soft Utility with a Fresh Twist",
+    "mission": "Connect homeowners with reliable carpet cleaning services through a seamless, fresh digital experience."
+  },
+  "typography": {
+    "primary_font": "Manrope",
+    "secondary_font": "Inter",
+    "usage": {
+      "headings": "Manrope, font-bold or font-extrabold, tracking-tight",
+      "body": "Inter, font-normal, leading-relaxed",
+      "ui_elements": "Inter, font-medium, tracking-wide"
+    },
+    "scale": {
+      "h1": "text-4xl md:text-6xl lg:text-7xl",
+      "h2": "text-3xl md:text-5xl",
+      "h3": "text-2xl md:text-3xl",
+      "body": "text-base md:text-lg",
+      "small": "text-sm"
+    }
+  },
+  "colors": {
+    "palette": {
+      "primary": {
+        "name": "Fresh Sky",
+        "hex": "#0EA5E9",
+        "tailwind": "sky-500",
+        "usage": "Primary buttons, active states, key icons"
+      },
+      "secondary": {
+        "name": "Clean Stone",
+        "hex": "#F5F5F4",
+        "tailwind": "stone-100",
+        "usage": "Backgrounds, secondary containers"
+      },
+      "accent": {
+        "name": "Action Amber",
+        "hex": "#F59E0B",
+        "tailwind": "amber-500",
+        "usage": "Call-to-actions, highlights, alerts"
+      },
+      "neutral": {
+        "base": "#FFFFFF",
+        "text_primary": "#1E293B",
+        "text_secondary": "#64748B",
+        "border": "#E2E8F0"
+      }
+    },
+    "theme_strategy": "Light Mode Dominant (Freshness). Dark mode exists but is secondary.",
+    "gradients": "Avoid full-screen gradients. Use subtle mesh gradients in hero sections: 'bg-gradient-to-br from-sky-50 to-stone-100'."
+  },
+  "layout": {
+    "spacing_system": "Generous. Use p-8, p-12, p-16. Avoid cramped layouts.",
+    "grid_systems": {
+      "marketing": "Tetris Grid (Mode A). Asymmetric columns (col-span-4, col-span-8).",
+      "dashboard": "Control Room Grid (Mode B). Dense but breathable. Sidebar layout."
+    },
+    "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+    "radius": "rounded-xl or rounded-2xl for cards. rounded-full for buttons."
+  },
+  "components": {
+    "strategy": "Hybrid. Custom HTML/Tailwind for Marketing. Shadcn/UI for App/Dashboard.",
+    "file_extension": ".jsx",
+    "library_path": "/app/frontend/src/components/ui",
+    "customization_rules": [
+      "Override default Shadcn heights (h-9 -> h-auto) for better accessibility.",
+      "Add 'data-testid' to all interactive elements.",
+      "Use 'sonner' for toasts.",
+      "Use 'lucide-react' for icons."
+    ],
+    "specific_components": {
+      "buttons": "Pill-shaped or soft-rounded. Hover: scale-105 transition-transform.",
+      "cards": "Flat with subtle border (border-stone-200). Hover: shadow-lg transition-shadow.",
+      "inputs": "bg-white border-stone-200 focus:ring-2 focus:ring-sky-500 focus:border-transparent."
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Subtle noise overlay on solid backgrounds to reduce digital flatness.",
+    "shadows": "Soft, diffuse shadows. 'shadow-[0_8px_30px_rgb(0,0,0,0.04)]'.",
+    "glassmorphism": "Used sparingly on sticky headers and floating modals. 'backdrop-blur-md bg-white/80'.",
+    "motion": {
+      "transitions": "transition-all duration-300 ease-out",
+      "hover_effects": "Lift up (-translate-y-1) and shadow increase.",
+      "scroll": "Smooth scroll behavior."
+    }
+  },
+  "images": {
+    "strategy": "Authentic, bright, clean. Avoid generic 3D renders.",
+    "sources": [
+      {
+        "category": "hero_bg",
+        "url": "https://images.pexels.com/photos/6603475/pexels-photo-6603475.jpeg",
+        "description": "Bright living room with clean carpet",
+        "usage": "Hero section background or main visual"
+      },
+      {
+        "category": "service_action",
+        "url": "https://images.pexels.com/photos/38325/vacuum-cleaner-carpet-cleaner-housework-housekeeping-38325.jpeg",
+        "description": "Professional carpet cleaning machine in action",
+        "usage": "Service details or 'How it works' section"
+      },
+      {
+        "category": "lifestyle",
+        "url": "https://images.pexels.com/photos/15824947/pexels-photo-15824947.jpeg",
+        "description": "Relaxed atmosphere on a rug",
+        "usage": "Testimonials or trust section"
+      }
+    ]
+  },
+  "pages_structure": {
+    "landing": {
+      "sections": ["Hero (Booking CTA)", "How it Works (Steps)", "Trust/Testimonials", "For Companies (Partner CTA)"],
+      "layout": "Vertical scroll, high impact visuals."
+    },
+    "auth": {
+      "layout": "Split screen. Left: Form. Right: Inspiring Image (Clean home).",
+      "components": ["Tabs (Login/Register)", "Social Auth Buttons"]
+    },
+    "customer_dashboard": {
+      "layout": "Sidebar + Content Area.",
+      "widgets": ["Active Orders", "Past Orders", "New Order Button"]
+    },
+    "company_dashboard": {
+      "layout": "Sidebar + Content Area.",
+      "widgets": ["Incoming Requests", "Earnings Chart", "Active Jobs"]
+    }
+  },
+  "universal_guidelines": [
+    "Do not use gradients for text.",
+    "Ensure 4.5:1 contrast ratio for text.",
+    "Mobile-first responsive design.",
+    "All interactive elements must have hover/focus states.",
+    "Use 'data-testid' for testing.",
+    "Do not use 'Inter' for Headings.",
+    "Avoid 'center-everything' layouts. Use asymmetry."
+  ]
+}

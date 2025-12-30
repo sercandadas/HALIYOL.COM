@@ -1,34 +1,112 @@
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* HALIYOL App Styles */
+
+/* Hero section styles */
+.hero-gradient {
+    background: linear-gradient(135deg, #f0f9ff 0%, #f5f5f4 100%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Card hover effects */
+.card-hover {
+    transition: all 0.3s ease-out;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
 }
 
-.App-link {
-    color: #61dafb;
+/* Button styles */
+.btn-primary {
+    @apply bg-sky-500 hover:bg-sky-600 text-white font-medium px-6 py-3 rounded-full transition-all duration-300;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.btn-primary:hover {
+    transform: scale(1.02);
+}
+
+.btn-secondary {
+    @apply bg-white hover:bg-stone-50 text-slate-800 font-medium px-6 py-3 rounded-full border border-stone-200 transition-all duration-300;
+}
+
+/* Input styles */
+.input-primary {
+    @apply w-full px-4 py-3 bg-white border border-stone-200 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-transparent outline-none transition-all duration-200;
+}
+
+/* Status badge colors */
+.status-pending {
+    @apply bg-amber-100 text-amber-800;
+}
+
+.status-assigned {
+    @apply bg-blue-100 text-blue-800;
+}
+
+.status-picked_up {
+    @apply bg-indigo-100 text-indigo-800;
+}
+
+.status-washing {
+    @apply bg-purple-100 text-purple-800;
+}
+
+.status-ready {
+    @apply bg-emerald-100 text-emerald-800;
+}
+
+.status-delivered {
+    @apply bg-green-100 text-green-800;
+}
+
+.status-cancelled {
+    @apply bg-red-100 text-red-800;
+}
+
+/* Sidebar styles */
+.sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 text-slate-600 hover:bg-stone-100 rounded-xl transition-all duration-200;
+}
+
+.sidebar-link.active {
+    @apply bg-sky-50 text-sky-600 font-medium;
+}
+
+/* Dashboard card */
+.dashboard-card {
+    @apply bg-white rounded-2xl border border-stone-200 p-6 transition-all duration-300;
+}
+
+.dashboard-card:hover {
+    @apply shadow-lg;
+}
+
+/* Stat card */
+.stat-card {
+    @apply bg-white rounded-2xl border border-stone-200 p-6 flex flex-col;
+}
+
+.stat-value {
+    @apply text-3xl font-bold text-slate-800 mt-2;
+}
+
+.stat-label {
+    @apply text-sm text-slate-500;
+}
+
+/* Table styles */
+.table-header {
+    @apply text-left text-sm font-medium text-slate-500 uppercase tracking-wider;
+}
+
+.table-cell {
+    @apply py-4 px-4 text-slate-700;
+}
+
+/* Mobile menu */
+.mobile-menu {
+    @apply fixed inset-0 bg-black/50 z-50 lg:hidden;
+}
+
+.mobile-menu-content {
+    @apply fixed left-0 top-0 h-full w-64 bg-white shadow-xl;
 }
