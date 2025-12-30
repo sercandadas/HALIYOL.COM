@@ -392,27 +392,48 @@ const CompanyReports = () => {
       ) : (
         <div className="space-y-6">
           {/* Özet Kartları */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="dashboard-card bg-gradient-to-br from-orange-500 to-orange-600 text-white">
               <p className="text-sm opacity-80">{periodLabels[period]} Sipariş</p>
               <p className="text-3xl font-bold">{reports?.total_orders || 0}</p>
             </div>
             <div className="dashboard-card bg-gradient-to-br from-indigo-500 to-indigo-600 text-white">
-              <p className="text-sm opacity-80">{periodLabels[period]} Yıkanan</p>
+              <p className="text-sm opacity-80">{periodLabels[period]} Yıkanan Alan</p>
               <p className="text-3xl font-bold">{(reports?.total_area || 0).toFixed(1)} m²</p>
+            </div>
+            <div className="dashboard-card bg-gradient-to-br from-green-500 to-green-600 text-white">
+              <p className="text-sm opacity-80">{periodLabels[period]} Ciro</p>
+              <p className="text-3xl font-bold">{(reports?.total_price || 0).toLocaleString("tr-TR")} ₺</p>
             </div>
           </div>
 
-          {/* Halı Türü Bazında */}
+          {/* Halı Türüne Göre Detay */}
           <div className="dashboard-card">
-            <h2 className="text-lg font-semibold text-slate-800 mb-4">Halı Türüne Göre ({periodLabels[period]})</h2>
-            <div className="space-y-3">
-              {Object.entries(CARPET_TYPES).map(([key, { name }]) => (
-                <div key={key} className="flex items-center justify-between py-2 border-b border-stone-100">
-                  <span className="text-slate-600">{name}</span>
-                  <span className="font-bold text-slate-800">{(reports?.carpet_stats?.[key] || 0).toFixed(1)} m²</span>
-                </div>
-              ))}
+            <h2 className="text-lg font-semibold text-slate-800 mb-4">Halı Türüne Göre Detay ({periodLabels[period]})</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-stone-200">
+                    <th className="text-left py-3 px-2 text-slate-500 font-medium">Halı Türü</th>
+                    <th className="text-right py-3 px-2 text-slate-500 font-medium">Alan (m²)</th>
+                    <th className="text-right py-3 px-2 text-slate-500 font-medium">Tutar (₺)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(CARPET_TYPES).map(([key, { name }]) => (
+                    <tr key={key} className="border-b border-stone-100">
+                      <td className="py-3 px-2 text-slate-700">{name}</td>
+                      <td className="py-3 px-2 text-right font-medium text-slate-800">{(reports?.carpet_stats?.[key]?.area || 0).toFixed(1)}</td>
+                      <td className="py-3 px-2 text-right font-medium text-green-600">{(reports?.carpet_stats?.[key]?.price || 0).toLocaleString("tr-TR")}</td>
+                    </tr>
+                  ))}
+                  <tr className="bg-stone-50 font-bold">
+                    <td className="py-3 px-2 text-slate-800">TOPLAM</td>
+                    <td className="py-3 px-2 text-right text-slate-800">{(reports?.total_area || 0).toFixed(1)}</td>
+                    <td className="py-3 px-2 text-right text-green-600">{(reports?.total_price || 0).toLocaleString("tr-TR")}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
