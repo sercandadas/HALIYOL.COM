@@ -286,7 +286,7 @@ const AdminReports = () => {
   const [reports, setReports] = useState(null);
   const [companies, setCompanies] = useState([]);
   const [period, setPeriod] = useState("monthly");
-  const [selectedCompany, setSelectedCompany] = useState("");
+  const [selectedCompany, setSelectedCompany] = useState("all");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [useCustomDate, setUseCustomDate] = useState(false);
@@ -303,7 +303,7 @@ const AdminReports = () => {
     setLoading(true);
     try {
       let url = `${API}/admin/reports?period=${period}`;
-      if (selectedCompany) url += `&company_id=${selectedCompany}`;
+      if (selectedCompany && selectedCompany !== "all") url += `&company_id=${selectedCompany}`;
       if (useCustomDate && startDate && endDate) {
         url += `&start=${startDate}T00:00:00Z&end=${endDate}T23:59:59Z`;
       }
