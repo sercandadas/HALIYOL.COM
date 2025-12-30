@@ -417,7 +417,7 @@ const AdminReports = () => {
           </div>
 
           {/* Firma Bazlı Detay */}
-          {!selectedCompany && reports.company_stats?.length > 0 && (
+          {(!selectedCompany || selectedCompany === "all") && reports.company_stats?.length > 0 && (
             <div className="dashboard-card">
               <h2 className="text-lg font-semibold text-slate-800 mb-4">Firma Bazlı Detay</h2>
               <div className="space-y-4">
