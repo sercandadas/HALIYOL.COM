@@ -488,7 +488,10 @@ const AdminCompanies = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Firmalar ({companies.length})</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-slate-800">Firmalar ({companies.length})</h1>
+        <ExportButtons />
+      </div>
       {companies.length === 0 ? (
         <div className="text-center py-12 bg-stone-50 rounded-2xl"><Building2 className="w-12 h-12 text-slate-300 mx-auto mb-4" /><p className="text-slate-500">Firma bulunmuyor</p></div>
       ) : (
