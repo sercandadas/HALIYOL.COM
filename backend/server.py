@@ -914,17 +914,19 @@ async def admin_create_customer(customer_data: dict, request: Request):
     if admin["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    # Email kontrolü
-    existing = await db.users.find_one({"email": customer_data["email"]}, {"_id": 0})
-    if existing:
-        raise HTTPException(status_code=400, detail="Email already registered")
+    # Email kontrolü (varsa)
+    email = customer_data.get("email", f"customer_{uuid.uuid4().hex[:8]}@noemail.local")
+    if customer_data.get("email"):
+        existing = await db.users.find_one({"email": email}, {"_id": 0})
+        if existing:
+            raise HTTPException(status_code=400, detail="Email already registered")
     
     user_id = f"user_{uuid.uuid4().hex[:12]}"
     hashed_pw = hash_password(customer_data["password"])
     
     new_user = {
         "user_id": user_id,
-        "email": customer_data["email"],
+        "email": email,
         "name": customer_data["name"],
         "password_hash": hashed_pw,
         "role": "customer",
@@ -950,10 +952,12 @@ async def admin_create_company(company_data: dict, request: Request):
     if admin["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    # Email kontrolü
-    existing = await db.users.find_one({"email": company_data["email"]}, {"_id": 0})
-    if existing:
-        raise HTTPException(status_code=400, detail="Email already registered")
+    # Email kontrolü (varsa)
+    email = company_data.get("email", f"company_{uuid.uuid4().hex[:8]}@noemail.local")
+    if company_data.get("email"):
+        existing = await db.users.find_one({"email": email}, {"_id": 0})
+        if existing:
+            raise HTTPException(status_code=400, detail="Email already registered")
     
     user_id = f"user_{uuid.uuid4().hex[:12]}"
     hashed_pw = hash_password(company_data["password"])
