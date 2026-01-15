@@ -195,7 +195,7 @@ async def register(user_data: UserCreate, response: Response):
     new_user.pop("_id", None)
     
     if user_data.role == "company" and user_data.company_name:
-        company_profile = {"user_id": user_id, "company_name": user_data.company_name, "email": user_data.email, "phone": user_data.phone, "city": user_data.city or "", "districts": user_data.service_areas or [], "address": user_data.address, "is_active": True, "total_area_washed": 0.0, "created_at": datetime.now(timezone.utc).isoformat()}
+        company_profile = {"user_id": user_id, "company_name": user_data.company_name, "email": user_data.email, "phone": user_data.phone, "city": user_data.city or "", "districts": user_data.service_areas or [], "address": user_data.address, "is_active": False, "is_approved": False, "total_area_washed": 0.0, "created_at": datetime.now(timezone.utc).isoformat()}
         await db.companies.insert_one(company_profile)
     
     session_token = f"sess_{uuid.uuid4().hex}"
