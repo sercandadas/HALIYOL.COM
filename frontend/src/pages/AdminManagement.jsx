@@ -150,17 +150,17 @@ const CustomerForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.password) {
-      toast({ title: "Hata", description: "Ad soyad ve şifre zorunludur", variant: "destructive" });
+      toast.error("Ad soyad ve şifre zorunludur");
       return;
     }
     
     setLoading(true);
     try {
       await axios.post(`${API}/admin/customers/create`, formData);
-      toast({ title: "Başarılı", description: "Müşteri oluşturuldu" });
+      toast.success("Müşteri başarıyla oluşturuldu");
       setFormData({ name: "", email: "", password: "", phone: "", city: "", district: "", address: "" });
     } catch (error) {
-      toast({ title: "Hata", description: error.response?.data?.detail || "İşlem başarısız", variant: "destructive" });
+      toast.error(error.response?.data?.detail || "Müşteri oluşturulamadı");
     } finally {
       setLoading(false);
     }
