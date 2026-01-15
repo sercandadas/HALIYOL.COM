@@ -10,6 +10,8 @@ import AuthPage from "@/pages/AuthPage";
 import CustomerDashboard from "@/pages/CustomerDashboard";
 import CompanyDashboard from "@/pages/CompanyDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
+import AboutPage from "@/pages/AboutPage";
+import SupportPage from "@/pages/SupportPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
