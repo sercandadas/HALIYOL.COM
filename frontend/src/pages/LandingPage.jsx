@@ -90,14 +90,16 @@ const LandingPage = () => {
               <CarpetLogo className="w-10 h-10" />
               <span className="text-xl font-bold text-slate-800 tracking-tight">HALIYOL</span>
             </div>
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#nasil-calisir" className="text-slate-600 hover:text-orange-500 transition-colors">Nasıl Çalışır</a>
-              <a href="#hizmetler" className="text-slate-600 hover:text-orange-500 transition-colors">Hizmetler</a>
-              <a href="#iletisim" className="text-slate-600 hover:text-orange-500 transition-colors">İletişim</a>
+            <div className="hidden md:flex items-center gap-6">
+              <a href="#nasil-calisir" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Nasıl Çalışır</a>
+              <a href="#hizmetler" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Hizmetler</a>
+              <Link to="/about" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Hakkımızda</Link>
+              <Link to="/support" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Yardım & Destek</Link>
+              <a href="#iletisim" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">İletişim</a>
             </div>
             <div className="flex items-center gap-3">
               <Link to="/auth">
-                <Button variant="ghost" className="text-slate-600" data-testid="login-btn">
+                <Button variant="ghost" className="text-slate-600 hidden sm:inline-flex" data-testid="login-btn">
                   Giriş Yap
                 </Button>
               </Link>
