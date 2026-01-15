@@ -100,7 +100,6 @@ export const PendingCompanies = () => {
 // Create Forms Component
 export const AdminCreate = () => {
   const [activeTab, setActiveTab] = useState("customer");
-  const { toast } = useToast();
 
   const tabs = [
     { id: "customer", label: "Müşteri Oluştur", icon: <User className="w-4 h-4" /> },
@@ -129,14 +128,14 @@ export const AdminCreate = () => {
       </div>
 
       {/* Content */}
-      {activeTab === "customer" && <CustomerForm toast={toast} />}
-      {activeTab === "company" && <CompanyForm toast={toast} />}
-      {activeTab === "order" && <OrderForm toast={toast} />}
+      {activeTab === "customer" && <CustomerForm />}
+      {activeTab === "company" && <CompanyForm />}
+      {activeTab === "order" && <OrderForm />}
     </div>
   );
 };
 
-const CustomerForm = ({ toast }) => {
+const CustomerForm = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
