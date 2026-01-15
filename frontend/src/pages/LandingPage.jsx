@@ -488,8 +488,62 @@ const LandingPage = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Contact Section */}
+      <section id="iletisim" className="py-24 px-4 bg-gradient-to-br from-orange-50 to-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">İletişime Geçin</h2>
+            <p className="text-xl text-slate-600">Sorularınız için bize ulaşın, size yardımcı olmaktan mutluluk duyarız</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Phone className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">Telefon</h3>
+              <p className="text-slate-600 mb-4">Bizi arayın</p>
+              <a href="tel:08501234567" className="text-orange-600 hover:text-orange-700 font-semibold">
+                0850 123 45 67
+              </a>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">E-posta</h3>
+              <p className="text-slate-600 mb-4">Bize yazın</p>
+              <a href="mailto:info@haliyol.com" className="text-orange-600 hover:text-orange-700 font-semibold">
+                info@haliyol.com
+              </a>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MapPin className="w-8 h-8 text-orange-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-slate-800 mb-2">Adres</h3>
+              <p className="text-slate-600 mb-4">Merkez Ofis</p>
+              <p className="text-slate-700 font-medium">
+                İstanbul, Türkiye
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <Link to="/support">
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-6 text-lg font-semibold">
+                Yardım Merkezi
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-12 px-4 mt-20">
+      <footer className="bg-slate-900 text-white py-12 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
