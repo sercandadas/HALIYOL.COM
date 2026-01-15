@@ -218,15 +218,24 @@ const CompanyForm = ({ toast }) => {
     districts: [],
     address: ""
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.company_name || !formData.password || !formData.phone) {
+      toast({ title: "Hata", description: "Firma adı, şifre ve telefon zorunludur", variant: "destructive" });
+      return;
+    }
+    
+    setLoading(true);
     try {
       await axios.post(`${API}/admin/companies/create`, formData);
       toast({ title: "Başarılı", description: "Firma oluşturuldu" });
       setFormData({ company_name: "", email: "", password: "", phone: "", city: "", districts: [], address: "" });
     } catch (error) {
       toast({ title: "Hata", description: error.response?.data?.detail || "İşlem başarısız", variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -235,36 +244,36 @@ const CompanyForm = ({ toast }) => {
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <Label>Firma Adı *</Label>
-          <Input required value={formData.company_name} onChange={(e) => setFormData({ ...formData, company_name: e.target.value })} />
+          <Input required value={formData.company_name} onChange={(e) => setFormData({ ...formData, company_name: e.target.value })} placeholder="ABC Halı Yıkama" />
         </div>
         <div>
-          <Label>Email *</Label>
-          <Input required type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+          <Label>Email</Label>
+          <Input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="firma@example.com" />
         </div>
         <div>
           <Label>Şifre *</Label>
-          <Input required type="password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+          <Input required type="password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} placeholder="Güvenli şifre" />
         </div>
         <div>
           <Label>Telefon *</Label>
-          <Input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+          <Input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="0532 123 4567" />
         </div>
         <div>
-          <Label>Şehir *</Label>
-          <Input required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} />
+          <Label>Şehir</Label>
+          <Input value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} placeholder="İstanbul" />
         </div>
         <div>
           <Label>Hizmet Bölgeleri (virgülle ayırın)</Label>
-          <Input value={formData.districts.join(", ")} onChange={(e) => setFormData({ ...formData, districts: e.target.value.split(",").map(d => d.trim()) })} />
+          <Input value={formData.districts.join(", ")} onChange={(e) => setFormData({ ...formData, districts: e.target.value.split(",").map(d => d.trim()).filter(d => d) })} placeholder="Kadıköy, Üsküdar" />
         </div>
       </div>
       <div>
-        <Label>Adres *</Label>
-        <Input required value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
+        <Label>Adres</Label>
+        <Input value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} placeholder="Tam adres" />
       </div>
-      <Button type="submit" className="bg-orange-500 hover:bg-orange-600">
+      <Button type="submit" className="bg-orange-500 hover:bg-orange-600" disabled={loading}>
         <Plus className="w-4 h-4 mr-2" />
-        Firma Oluştur
+        {loading ? "Oluşturuluyor..." : "Firma Oluştur"}
       </Button>
     </form>
   );
