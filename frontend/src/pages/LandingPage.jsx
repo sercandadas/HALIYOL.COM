@@ -92,7 +92,7 @@ const LandingPage = () => {
             </div>
             <div className="hidden md:flex items-center gap-6">
               <a href="#nasil-calisir" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Nasıl Çalışır</a>
-              <a href="#hizmetler" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Hizmetler</a>
+              <a href="#hizmetler" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Fiyat Listesi</a>
               <Link to="/about" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Hakkımızda</Link>
               <Link to="/support" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">Yardım & Destek</Link>
               <a href="#iletisim" className="text-slate-600 hover:text-orange-500 transition-colors font-medium">İletişim</a>
@@ -114,11 +114,11 @@ const LandingPage = () => {
       </nav>
 
       {/* Discount Banner */}
-      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 shadow-lg">
+      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-yellow-500 to-orange-600 text-white py-3 px-4 shadow-lg">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 text-center">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🎉</span>
-            <span className="font-bold text-lg">YENİ ÜYE KAMPANYASI:</span>
+            <span className="font-bold text-lg">YENİ ÜYELERE ÖZEL :</span>
             <span className="text-lg">%10 İndirim!</span>
           </div>
           <span className="hidden sm:inline text-sm opacity-90">• 1000 TL ve üzeri siparişlerde geçerlidir</span>
