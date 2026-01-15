@@ -744,6 +744,8 @@ async def get_admin_reports(request: Request, period: str = "daily", company_id:
     carpet_stats = {"normal": {"area": 0, "price": 0}, "shaggy": {"area": 0, "price": 0}, "silk": {"area": 0, "price": 0}, "antique": {"area": 0, "price": 0}}
     total_area = 0
     total_price = 0
+    total_discount = 0
+    total_final_price = 0
     total_orders = len(orders)
     
     # Firma bazlı istatistikler
@@ -758,12 +760,24 @@ async def get_admin_reports(request: Request, period: str = "daily", company_id:
                 "name": company_name, 
                 "total_area": 0, 
                 "total_price": 0,
+                "total_discount": 0,
+                "total_final_price": 0,
                 "order_count": 0, 
                 "carpet_stats": {"normal": {"area": 0, "price": 0}, "shaggy": {"area": 0, "price": 0}, "silk": {"area": 0, "price": 0}, "antique": {"area": 0, "price": 0}}
             }
         
         if company_id_order:
             company_stats[company_id_order]["order_count"] += 1
+        
+        # İndirim ve final price hesapla
+        discount_amount = order.get("discount_amount", 0)
+        final_price = order.get("final_price", order.get("actual_total_price", 0))
+        total_discount += discount_amount
+        total_final_price += final_price
+        
+        if company_id_order:
+            company_stats[company_id_order]["total_discount"] += discount_amount
+            company_stats[company_id_order]["total_final_price"] += final_price
         
         for carpet in order.get("actual_carpets", []):
             carpet_type = carpet.get("carpet_type", "normal")
@@ -790,6 +804,8 @@ async def get_admin_reports(request: Request, period: str = "daily", company_id:
         "total_orders": total_orders,
         "total_area": total_area,
         "total_price": total_price,
+        "total_discount": total_discount,
+        "total_final_price": total_final_price,
         "carpet_stats": carpet_stats,
         "company_stats": list(company_stats.values())
     }
