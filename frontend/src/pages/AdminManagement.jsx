@@ -278,9 +278,9 @@ const CompanyForm = () => {
 };
 
 const OrderForm = () => {
-  const [customers, setCustomers] = useState([]);
   const [formData, setFormData] = useState({
-    customer_id: "",
+    customer_name: "",
+    email: "",
     phone: "",
     city: "",
     district: "",
@@ -290,23 +290,10 @@ const OrderForm = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    fetchCustomers();
-  }, []);
-
-  const fetchCustomers = async () => {
-    try {
-      const res = await axios.get(`${API}/api/admin/users`);
-      setCustomers(res.data.users.filter(u => u.role === "customer"));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.customer_id || !formData.phone || !formData.city || !formData.address) {
-      toast.error("Müşteri, telefon, şehir ve adres zorunludur");
+    if (!formData.customer_name || !formData.phone || !formData.city || !formData.address) {
+      toast.error("Ad soyad, telefon, şehir ve adres zorunludur");
       return;
     }
     
@@ -314,7 +301,7 @@ const OrderForm = () => {
     try {
       await axios.post(`${API}/api/admin/orders/create`, formData);
       toast.success("Sipariş başarıyla oluşturuldu");
-      setFormData({ customer_id: "", phone: "", city: "", district: "", address: "", carpets: [{ carpet_type: "normal", width: "", length: "" }], special_notes: "" });
+      setFormData({ customer_name: "", email: "", phone: "", city: "", district: "", address: "", carpets: [{ carpet_type: "normal", width: "", length: "" }], special_notes: "" });
     } catch (error) {
       toast.error(error.response?.data?.detail || "Sipariş oluşturulamadı");
     } finally {
@@ -332,19 +319,15 @@ const OrderForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="dashboard-card space-y-4 max-w-2xl">
-      <div>
-        <Label>Müşteri Seç *</Label>
-        <Select value={formData.customer_id} onValueChange={(val) => setFormData({ ...formData, customer_id: val })}>
-          <SelectTrigger><SelectValue placeholder="Müşteri seçin" /></SelectTrigger>
-          <SelectContent>
-            {customers.map(c => (
-              <SelectItem key={c.user_id} value={c.user_id}>{c.name} ({c.email})</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
       <div className="grid md:grid-cols-2 gap-4">
+        <div>
+          <Label>Ad Soyad *</Label>
+          <Input required value={formData.customer_name} onChange={(e) => setFormData({ ...formData, customer_name: e.target.value })} placeholder="Ahmet Yılmaz" />
+        </div>
+        <div>
+          <Label>Email</Label>
+          <Input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="ornek@email.com" />
+        </div>
         <div>
           <Label>Telefon *</Label>
           <Input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="0532 123 4567" />
