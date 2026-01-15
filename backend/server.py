@@ -641,6 +641,8 @@ async def get_company_reports(request: Request, period: str = "daily", start: Op
     carpet_stats = {"normal": {"area": 0, "price": 0}, "shaggy": {"area": 0, "price": 0}, "silk": {"area": 0, "price": 0}, "antique": {"area": 0, "price": 0}}
     total_area = 0
     total_price = 0
+    total_discount = 0
+    total_final_price = 0
     total_orders = len(orders)
     
     for order in orders:
@@ -653,6 +655,14 @@ async def get_company_reports(request: Request, period: str = "daily", start: Op
                 carpet_stats[carpet_type]["price"] += price
             total_area += area
             total_price += price
+        
+        # İndirim toplamını hesapla
+        discount_amount = order.get("discount_amount", 0)
+        total_discount += discount_amount
+        
+        # Final price toplamını hesapla (indirimli fiyat)
+        final_price = order.get("final_price", order.get("actual_total_price", 0))
+        total_final_price += final_price
     
     return {
         "period": period,
@@ -661,6 +671,8 @@ async def get_company_reports(request: Request, period: str = "daily", start: Op
         "total_orders": total_orders,
         "total_area": total_area,
         "total_price": total_price,
+        "total_discount": total_discount,
+        "total_final_price": total_final_price,
         "carpet_stats": carpet_stats
     }
 
