@@ -290,6 +290,7 @@ const OrderForm = ({ toast }) => {
     carpets: [{ carpet_type: "normal", width: "", length: "" }],
     special_notes: ""
   });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCustomers();
@@ -306,12 +307,20 @@ const OrderForm = ({ toast }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.customer_id || !formData.phone || !formData.city || !formData.address) {
+      toast({ title: "Hata", description: "Müşteri, telefon, şehir ve adres zorunludur", variant: "destructive" });
+      return;
+    }
+    
+    setLoading(true);
     try {
       await axios.post(`${API}/admin/orders/create`, formData);
       toast({ title: "Başarılı", description: "Sipariş oluşturuldu" });
       setFormData({ customer_id: "", phone: "", city: "", district: "", address: "", carpets: [{ carpet_type: "normal", width: "", length: "" }], special_notes: "" });
     } catch (error) {
       toast({ title: "Hata", description: error.response?.data?.detail || "İşlem başarısız", variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -327,7 +336,7 @@ const OrderForm = ({ toast }) => {
     <form onSubmit={handleSubmit} className="dashboard-card space-y-4 max-w-2xl">
       <div>
         <Label>Müşteri Seç *</Label>
-        <Select required value={formData.customer_id} onValueChange={(val) => setFormData({ ...formData, customer_id: val })}>
+        <Select value={formData.customer_id} onValueChange={(val) => setFormData({ ...formData, customer_id: val })}>
           <SelectTrigger><SelectValue placeholder="Müşteri seçin" /></SelectTrigger>
           <SelectContent>
             {customers.map(c => (
@@ -340,21 +349,21 @@ const OrderForm = ({ toast }) => {
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <Label>Telefon *</Label>
-          <Input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+          <Input required value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} placeholder="0532 123 4567" />
         </div>
         <div>
           <Label>Şehir *</Label>
-          <Input required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} />
+          <Input required value={formData.city} onChange={(e) => setFormData({ ...formData, city: e.target.value })} placeholder="İstanbul" />
         </div>
         <div>
-          <Label>İlçe *</Label>
-          <Input required value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })} />
+          <Label>İlçe</Label>
+          <Input value={formData.district} onChange={(e) => setFormData({ ...formData, district: e.target.value })} placeholder="Kadıköy" />
         </div>
       </div>
 
       <div>
         <Label>Adres *</Label>
-        <Input required value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} />
+        <Input required value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })} placeholder="Tam teslimat adresi" />
       </div>
 
       <div>
@@ -376,12 +385,12 @@ const OrderForm = ({ toast }) => {
             </Select>
             <Input placeholder="En (m)" type="number" step="0.1" value={carpet.width} onChange={(e) => {
               const newCarpets = [...formData.carpets];
-              newCarpets[index].width = parseFloat(e.target.value);
+              newCarpets[index].width = parseFloat(e.target.value) || "";
               setFormData({ ...formData, carpets: newCarpets });
             }} />
             <Input placeholder="Boy (m)" type="number" step="0.1" value={carpet.length} onChange={(e) => {
               const newCarpets = [...formData.carpets];
-              newCarpets[index].length = parseFloat(e.target.value);
+              newCarpets[index].length = parseFloat(e.target.value) || "";
               setFormData({ ...formData, carpets: newCarpets });
             }} />
             {formData.carpets.length > 1 && (
@@ -399,12 +408,12 @@ const OrderForm = ({ toast }) => {
 
       <div>
         <Label>Özel Notlar</Label>
-        <Input value={formData.special_notes} onChange={(e) => setFormData({ ...formData, special_notes: e.target.value })} />
+        <Input value={formData.special_notes} onChange={(e) => setFormData({ ...formData, special_notes: e.target.value })} placeholder="Halı hakkında notlar" />
       </div>
 
-      <Button type="submit" className="bg-orange-500 hover:bg-orange-600">
+      <Button type="submit" className="bg-orange-500 hover:bg-orange-600" disabled={loading}>
         <Plus className="w-4 h-4 mr-2" />
-        Sipariş Oluştur
+        {loading ? "Oluşturuluyor..." : "Sipariş Oluştur"}
       </Button>
     </form>
   );
