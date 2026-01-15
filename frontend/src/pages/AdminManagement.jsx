@@ -227,7 +227,7 @@ const CompanyForm = () => {
     
     setLoading(true);
     try {
-      await axios.post(`${API}/admin/companies/create`, formData);
+      await axios.post(`${API}/api/admin/companies/create`, formData);
       toast.success("Firma başarıyla oluşturuldu");
       setFormData({ company_name: "", email: "", password: "", phone: "", city: "", districts: [], address: "" });
     } catch (error) {
