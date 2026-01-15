@@ -206,7 +206,7 @@ const CustomerForm = () => {
   );
 };
 
-const CompanyForm = ({ toast }) => {
+const CompanyForm = () => {
   const [formData, setFormData] = useState({
     company_name: "",
     email: "",
@@ -221,17 +221,17 @@ const CompanyForm = ({ toast }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.company_name || !formData.password || !formData.phone) {
-      toast({ title: "Hata", description: "Firma adı, şifre ve telefon zorunludur", variant: "destructive" });
+      toast.error("Firma adı, şifre ve telefon zorunludur");
       return;
     }
     
     setLoading(true);
     try {
       await axios.post(`${API}/admin/companies/create`, formData);
-      toast({ title: "Başarılı", description: "Firma oluşturuldu" });
+      toast.success("Firma başarıyla oluşturuldu");
       setFormData({ company_name: "", email: "", password: "", phone: "", city: "", districts: [], address: "" });
     } catch (error) {
-      toast({ title: "Hata", description: error.response?.data?.detail || "İşlem başarısız", variant: "destructive" });
+      toast.error(error.response?.data?.detail || "Firma oluşturulamadı");
     } finally {
       setLoading(false);
     }
