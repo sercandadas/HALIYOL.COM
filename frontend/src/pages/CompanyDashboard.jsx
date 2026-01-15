@@ -359,32 +359,66 @@ const CompanyOrders = ({ user }) => {
 
 const CompanyReports = () => {
   const [reports, setReports] = useState(null);
-  const [period, setPeriod] = useState("daily");
+  const [period, setPeriod] = useState("monthly");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [useCustomDate, setUseCustomDate] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => { fetchReports(); }, [period]);
+  useEffect(() => { fetchReports(); }, [period, startDate, endDate, useCustomDate]);
 
   const fetchReports = async () => {
     setLoading(true);
-    try { const r = await axios.get(`${API}/company/reports?period=${period}`); setReports(r.data); } 
-    catch (e) { console.error(e); } finally { setLoading(false); }
+    try {
+      let url = `${API}/company/reports?period=${period}`;
+      if (useCustomDate && startDate && endDate) {
+        url += `&start=${startDate}T00:00:00Z&end=${endDate}T23:59:59Z`;
+      }
+      const r = await axios.get(url);
+      setReports(r.data);
+    } catch (e) { console.error(e); } finally { setLoading(false); }
   };
 
   const periodLabels = { daily: "Bugün", weekly: "Bu Hafta", monthly: "Bu Ay", yearly: "Bu Yıl" };
+  
+  const formatDateDisplay = (dateStr) => {
+    if (!dateStr) return "-";
+    return new Date(dateStr).toLocaleDateString("tr-TR");
+  };
 
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-        <h1 className="text-2xl font-bold text-slate-800 flex items-center gap-2"><BarChart3 className="w-6 h-6 text-orange-500" />Raporlar</h1>
-        <Select value={period} onValueChange={setPeriod}>
-          <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-          <SelectContent>
-            <SelectItem value="daily">Günlük</SelectItem>
-            <SelectItem value="weekly">Haftalık</SelectItem>
-            <SelectItem value="monthly">Aylık</SelectItem>
-            <SelectItem value="yearly">Yıllık</SelectItem>
-          </SelectContent>
-        </Select>
+      <h1 className="text-2xl font-bold text-slate-800 mb-6 flex items-center gap-2"><BarChart3 className="w-6 h-6 text-orange-500" />Raporlar</h1>
+      
+      {/* Filtreler */}
+      <div className="dashboard-card mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <Label className="text-xs text-slate-500">Dönem</Label>
+            <Select value={period} onValueChange={(v) => { setPeriod(v); setUseCustomDate(false); }}>
+              <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="daily">Günlük</SelectItem>
+                <SelectItem value="weekly">Haftalık</SelectItem>
+                <SelectItem value="monthly">Aylık</SelectItem>
+                <SelectItem value="yearly">Yıllık</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-xs text-slate-500">Başlangıç Tarihi</Label>
+            <input type="date" value={startDate} onChange={(e) => { setStartDate(e.target.value); setUseCustomDate(true); }} className="mt-1 w-full px-3 py-2 border border-stone-200 rounded-lg text-sm" />
+          </div>
+          <div>
+            <Label className="text-xs text-slate-500">Bitiş Tarihi</Label>
+            <input type="date" value={endDate} onChange={(e) => { setEndDate(e.target.value); setUseCustomDate(true); }} className="mt-1 w-full px-3 py-2 border border-stone-200 rounded-lg text-sm" />
+          </div>
+        </div>
+        {reports && (
+          <p className="text-xs text-slate-500 mt-3">
+            Tarih Aralığı: {formatDateDisplay(reports.start_date)} - {formatDateDisplay(reports.end_date)}
+          </p>
+        )}
       </div>
 
       {loading ? (
