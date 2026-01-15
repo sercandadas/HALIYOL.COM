@@ -426,7 +426,7 @@ const CompanyReports = () => {
       ) : (
         <div className="space-y-6">
           {/* Özet Kartları */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="dashboard-card bg-gradient-to-br from-orange-500 to-orange-600 text-white">
               <p className="text-sm opacity-80">{periodLabels[period]} Sipariş</p>
               <p className="text-3xl font-bold">{reports?.total_orders || 0}</p>
@@ -435,9 +435,16 @@ const CompanyReports = () => {
               <p className="text-sm opacity-80">{periodLabels[period]} Yıkanan Alan</p>
               <p className="text-3xl font-bold">{(reports?.total_area || 0).toFixed(1)} m²</p>
             </div>
-            <div className="dashboard-card bg-gradient-to-br from-green-500 to-green-600 text-white">
-              <p className="text-sm opacity-80">{periodLabels[period]} Ciro</p>
+            <div className="dashboard-card bg-gradient-to-br from-purple-500 to-purple-600 text-white">
+              <p className="text-sm opacity-80">Toplam Ciro</p>
               <p className="text-3xl font-bold">{(reports?.total_price || 0).toLocaleString("tr-TR")} ₺</p>
+            </div>
+            <div className="dashboard-card bg-gradient-to-br from-green-500 to-green-600 text-white">
+              <p className="text-sm opacity-80">Net Ciro (İndirimli)</p>
+              <p className="text-3xl font-bold">{(reports?.total_final_price || 0).toLocaleString("tr-TR")} ₺</p>
+              {reports?.total_discount > 0 && (
+                <p className="text-xs opacity-80 mt-1">-{reports.total_discount.toLocaleString("tr-TR")} ₺ indirim</p>
+              )}
             </div>
           </div>
 
