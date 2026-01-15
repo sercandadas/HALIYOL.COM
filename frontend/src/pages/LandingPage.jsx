@@ -485,6 +485,56 @@ const LandingPage = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Footer */}
+      <footer className="bg-slate-900 text-white py-12 px-4 mt-20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <CarpetLogo className="w-8 h-8" />
+                <span className="text-xl font-bold">HALIYOL</span>
+              </div>
+              <p className="text-slate-400">
+                Halılarınız için en iyi yıkama hizmeti
+              </p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Hızlı Linkler</h4>
+              <div className="space-y-2">
+                <Link to="/" className="block text-slate-400 hover:text-white transition-colors">Ana Sayfa</Link>
+                <Link to="/about" className="block text-slate-400 hover:text-white transition-colors">Hakkımızda</Link>
+                <Link to="/support" className="block text-slate-400 hover:text-white transition-colors">Yardım & Destek</Link>
+                <Link to="/auth" className="block text-slate-400 hover:text-white transition-colors">Giriş Yap</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">Yasal</h4>
+              <div className="space-y-2">
+                <Link to="/support?section=kvkk" className="block text-slate-400 hover:text-white transition-colors">KVKK</Link>
+                <Link to="/support?section=privacy" className="block text-slate-400 hover:text-white transition-colors">Gizlilik Politikası</Link>
+                <Link to="/support?section=cookies" className="block text-slate-400 hover:text-white transition-colors">Çerez Politikası</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-4">İletişim</h4>
+              <div className="space-y-2 text-slate-400">
+                <p className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  info@haliyol.com
+                </p>
+                <p className="flex items-center gap-2">
+                  <Phone className="w-4 h-4" />
+                  0850 123 45 67
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-slate-800 pt-8 text-center text-slate-400">
+            <p>&copy; 2024 HALIYOL. Tüm hakları saklıdır.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
