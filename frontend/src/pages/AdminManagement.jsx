@@ -421,7 +421,7 @@ const OrderForm = () => {
 export const ExportButtons = () => {
   const handleExport = async (type) => {
     try {
-      const response = await axios.get(`${API}/admin/export/${type}`, { responseType: "blob" });
+      const response = await axios.get(`${API}/api/admin/export/${type}`, { responseType: "blob" });
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
