@@ -113,8 +113,20 @@ const LandingPage = () => {
         </div>
       </nav>
 
+      {/* Discount Banner */}
+      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 shadow-lg">
+        <div className="max-w-7xl mx-auto flex items-center justify-center gap-3 text-center">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl">🎉</span>
+            <span className="font-bold text-lg">YENİ ÜYE KAMPANYASI:</span>
+            <span className="text-lg">%10 İndirim!</span>
+          </div>
+          <span className="hidden sm:inline text-sm opacity-90">• 1000 TL ve üzeri siparişlerde geçerlidir</span>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-orange-50 via-white to-orange-50 relative overflow-hidden">
+      <section className="pt-40 pb-20 px-4 bg-gradient-to-br from-orange-50 via-white to-orange-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8 animate-fade-in">
