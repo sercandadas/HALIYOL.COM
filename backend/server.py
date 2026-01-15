@@ -302,6 +302,9 @@ async def create_order(order_data: OrderCreate, request: Request):
         "actual_carpets": [],  # Firma tarafından girilecek gerçek bilgi
         "actual_total_area": 0,
         "actual_total_price": 0,
+        "discount_percentage": 0,
+        "discount_amount": 0,
+        "final_price": 0,
         "carpet_count": len(carpet_details),
         "special_notes": order_data.special_notes,
         "status": "pending",
