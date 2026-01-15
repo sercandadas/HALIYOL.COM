@@ -8,8 +8,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Home, Package, Users, Building2, LogOut, Menu, X, CheckCircle, Clock, MapPin, Phone, User, Mail, Ban, Trash2, UserCheck, XCircle, BarChart3 } from "lucide-react";
+import { Home, Package, Users, Building2, LogOut, Menu, X, CheckCircle, Clock, MapPin, Phone, User, Mail, Ban, Trash2, UserCheck, XCircle, BarChart3, FileText } from "lucide-react";
 import { API } from "@/App";
+import { PendingCompanies, AdminCreate, ExportButtons } from "./AdminManagement";
 
 const CarpetLogo = ({ className }) => (
   <svg className={className} viewBox="0 0 40 40" fill="none">
