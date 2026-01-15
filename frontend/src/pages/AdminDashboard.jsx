@@ -565,7 +565,10 @@ const AdminUsers = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-800 mb-6">Kullanıcı Yönetimi</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-slate-800">Kullanıcı Yönetimi</h1>
+        <ExportButtons />
+      </div>
 
       <h2 className="text-lg font-semibold text-slate-700 mb-4">Müşteriler ({customers.length})</h2>
       {customers.length === 0 ? (
