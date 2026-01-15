@@ -213,6 +213,13 @@ async def login(credentials: UserLogin, response: Response):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     if user.get("is_banned"):
         raise HTTPException(status_code=403, detail="Account is banned")
+    
+    # Firma ise onay kontrolü
+    if user.get("role") == "company":
+        company = await db.companies.find_one({"user_id": user["user_id"]}, {"_id": 0})
+        if company and not company.get("is_approved", False):
+            raise HTTPException(status_code=403, detail="Your company account is pending admin approval")
+    
     if not verify_password(credentials.password, user["password_hash"]):
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
