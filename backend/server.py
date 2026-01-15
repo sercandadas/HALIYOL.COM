@@ -1009,11 +1009,6 @@ async def admin_create_order(order_data: dict, request: Request):
     if admin["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    # Müşteri kontrolü
-    customer = await db.users.find_one({"user_id": order_data["customer_id"], "role": "customer"}, {"_id": 0})
-    if not customer:
-        raise HTTPException(status_code=404, detail="Customer not found")
-    
     carpet_details = []
     for carpet in order_data["carpets"]:
         area = carpet["width"] * carpet["length"]
@@ -1026,15 +1021,18 @@ async def admin_create_order(order_data: dict, request: Request):
     
     order_id = f"ORD-{uuid.uuid4().hex[:8].upper()}"
     
+    # Email yoksa otomatik oluştur
+    customer_email = order_data.get("email", f"order_{uuid.uuid4().hex[:8]}@noemail.local")
+    
     order = {
         "order_id": order_id,
-        "customer_id": order_data["customer_id"],
-        "customer_name": customer.get("name", ""),
-        "customer_phone": order_data.get("phone", customer.get("phone")),
-        "customer_email": customer.get("email", ""),
+        "customer_id": None,  # Admin tarafından oluşturulan siparişlerde customer_id yok
+        "customer_name": order_data["customer_name"],
+        "customer_phone": order_data["phone"],
+        "customer_email": customer_email,
         "customer_address": order_data["address"],
         "city": order_data["city"],
-        "district": order_data["district"],
+        "district": order_data.get("district", ""),
         "carpets": carpet_details,
         "actual_carpets": [],
         "actual_total_area": 0,
