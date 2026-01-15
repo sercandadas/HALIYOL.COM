@@ -13,7 +13,6 @@ const API = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKE
 export const PendingCompanies = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
 
   useEffect(() => { fetchPendingCompanies(); }, []);
 
@@ -23,7 +22,7 @@ export const PendingCompanies = () => {
       setCompanies(res.data.companies);
     } catch (error) {
       console.error(error);
-      toast({ title: "Hata", description: "Firmalar yüklenemedi", variant: "destructive" });
+      toast.error("Firmalar yüklenemedi");
     } finally {
       setLoading(false);
     }
@@ -32,10 +31,10 @@ export const PendingCompanies = () => {
   const handleApprove = async (userId) => {
     try {
       await axios.post(`${API}/admin/companies/${userId}/approve`);
-      toast({ title: "Başarılı", description: "Firma onaylandı" });
+      toast.success("Firma onaylandı");
       fetchPendingCompanies();
     } catch (error) {
-      toast({ title: "Hata", description: "İşlem başarısız", variant: "destructive" });
+      toast.error("İşlem başarısız");
     }
   };
 
@@ -43,10 +42,10 @@ export const PendingCompanies = () => {
     if (!window.confirm("Bu firmayı reddetmek istediğinize emin misiniz?")) return;
     try {
       await axios.post(`${API}/admin/companies/${userId}/reject`);
-      toast({ title: "Başarılı", description: "Firma reddedildi" });
+      toast.success("Firma reddedildi");
       fetchPendingCompanies();
     } catch (error) {
-      toast({ title: "Hata", description: "İşlem başarısız", variant: "destructive" });
+      toast.error("İşlem başarısız");
     }
   };
 
