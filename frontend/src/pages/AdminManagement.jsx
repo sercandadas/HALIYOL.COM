@@ -296,7 +296,7 @@ const OrderForm = () => {
 
   const fetchCustomers = async () => {
     try {
-      const res = await axios.get(`${API}/admin/users`);
+      const res = await axios.get(`${API}/api/admin/users`);
       setCustomers(res.data.users.filter(u => u.role === "customer"));
     } catch (error) {
       console.error(error);
@@ -312,7 +312,7 @@ const OrderForm = () => {
     
     setLoading(true);
     try {
-      await axios.post(`${API}/admin/orders/create`, formData);
+      await axios.post(`${API}/api/admin/orders/create`, formData);
       toast.success("Sipariş başarıyla oluşturuldu");
       setFormData({ customer_id: "", phone: "", city: "", district: "", address: "", carpets: [{ carpet_type: "normal", width: "", length: "" }], special_notes: "" });
     } catch (error) {
