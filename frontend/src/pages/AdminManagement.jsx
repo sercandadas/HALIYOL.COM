@@ -156,7 +156,7 @@ const CustomerForm = () => {
     
     setLoading(true);
     try {
-      await axios.post(`${API}/admin/customers/create`, formData);
+      await axios.post(`${API}/api/admin/customers/create`, formData);
       toast.success("Müşteri başarıyla oluşturuldu");
       setFormData({ name: "", email: "", password: "", phone: "", city: "", district: "", address: "" });
     } catch (error) {
