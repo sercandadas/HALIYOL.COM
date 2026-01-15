@@ -125,8 +125,8 @@ const LandingPage = () => {
                 Eviniz Pırıl Pırıl
               </h1>
               <p className="text-lg md:text-xl text-slate-600 max-w-xl leading-relaxed">
-                Bulunduğunuz bölgedeki halı yıkama firmamız 
-                halınızı alıp, profesyonelce yıkayıp, kapınıza teslim edelim.
+                Bulunduğunuz bölgedeki halı yıkama firmamız ile
+                halınızı alıp, profesyonelce yıkayıp, evinize teslim edelim.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button 
@@ -341,7 +341,7 @@ const LandingPage = () => {
                 </div>
                 <div className="flex items-center gap-2 text-slate-400">
                   <Phone className="w-4 h-4" />
-                  <span>0850 123 45 67</span>
+                  <span>0850 123 45 55</span>
                 </div>
                 <div className="flex items-center gap-2 text-slate-400">
                   <MapPin className="w-4 h-4" />
@@ -397,9 +397,9 @@ const LandingPage = () => {
                       <Label className="text-xs">Genişlik (m)</Label>
                       <Input
                         type="number"
-                        step="0.1"
-                        min="0.1"
-                        placeholder="2.0"
+                        step="1"
+                        min="1"
+                        placeholder="2"
                         value={carpet.width}
                         onChange={(e) => updateCarpet(carpet.id, "width", e.target.value)}
                         data-testid={`calc-width-${index}`}
@@ -409,9 +409,9 @@ const LandingPage = () => {
                       <Label className="text-xs">Uzunluk (m)</Label>
                       <Input
                         type="number"
-                        step="0.1"
-                        min="0.1"
-                        placeholder="3.0"
+                        step="1"
+                        min="1"
+                        placeholder="3"
                         value={carpet.length}
                         onChange={(e) => updateCarpet(carpet.id, "length", e.target.value)}
                         data-testid={`calc-length-${index}`}

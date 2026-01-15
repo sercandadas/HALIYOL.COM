@@ -209,8 +209,8 @@ const NewOrder = () => {
                     <SelectContent>{Object.entries(CARPET_TYPES).map(([key, { name }]) => <SelectItem key={key} value={key}>{name}</SelectItem>)}</SelectContent>
                   </Select>
                   <div className="grid grid-cols-2 gap-4">
-                    <div><Label>Genişlik (m)</Label><Input type="number" step="0.1" min="0.1" placeholder="2.0" value={carpet.width} onChange={(e) => updateCarpet(carpet.id, "width", e.target.value)} className="mt-1" required /></div>
-                    <div><Label>Uzunluk (m)</Label><Input type="number" step="0.1" min="0.1" placeholder="3.0" value={carpet.length} onChange={(e) => updateCarpet(carpet.id, "length", e.target.value)} className="mt-1" required /></div>
+                    <div><Label>Genişlik (m)</Label><Input type="number" step="1" min="1" placeholder="2" value={carpet.width} onChange={(e) => updateCarpet(carpet.id, "width", e.target.value)} className="mt-1" required /></div>
+                    <div><Label>Uzunluk (m)</Label><Input type="number" step="1" min="1" placeholder="3" value={carpet.length} onChange={(e) => updateCarpet(carpet.id, "length", e.target.value)} className="mt-1" required /></div>
                   </div>
                 </div>
               </div>
