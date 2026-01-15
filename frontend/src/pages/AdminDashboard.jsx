@@ -48,8 +48,10 @@ const Sidebar = ({ user, onLogout, mobileOpen, setMobileOpen }) => {
     { path: "/admin", icon: <Home className="w-5 h-5" />, label: "Ana Sayfa" },
     { path: "/admin/orders", icon: <Package className="w-5 h-5" />, label: "Siparişler" },
     { path: "/admin/reports", icon: <BarChart3 className="w-5 h-5" />, label: "Raporlar" },
+    { path: "/admin/pending-companies", icon: <Building2 className="w-5 h-5" />, label: "Onay Bekleyen Firmalar" },
     { path: "/admin/companies", icon: <Building2 className="w-5 h-5" />, label: "Firmalar" },
-    { path: "/admin/users", icon: <Users className="w-5 h-5" />, label: "Müşteriler" }
+    { path: "/admin/users", icon: <Users className="w-5 h-5" />, label: "Müşteriler" },
+    { path: "/admin/create", icon: <FileText className="w-5 h-5" />, label: "Yeni Oluştur" }
   ];
 
   const SidebarContent = () => (
