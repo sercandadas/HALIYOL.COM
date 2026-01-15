@@ -18,7 +18,7 @@ export const PendingCompanies = () => {
 
   const fetchPendingCompanies = async () => {
     try {
-      const res = await axios.get(`${API}/admin/companies/pending`);
+      const res = await axios.get(`${API}/api/admin/companies/pending`);
       setCompanies(res.data.companies);
     } catch (error) {
       console.error(error);
@@ -30,7 +30,7 @@ export const PendingCompanies = () => {
 
   const handleApprove = async (userId) => {
     try {
-      await axios.post(`${API}/admin/companies/${userId}/approve`);
+      await axios.post(`${API}/api/admin/companies/${userId}/approve`);
       toast.success("Firma onaylandı");
       fetchPendingCompanies();
     } catch (error) {
@@ -41,7 +41,7 @@ export const PendingCompanies = () => {
   const handleReject = async (userId) => {
     if (!window.confirm("Bu firmayı reddetmek istediğinize emin misiniz?")) return;
     try {
-      await axios.post(`${API}/admin/companies/${userId}/reject`);
+      await axios.post(`${API}/api/admin/companies/${userId}/reject`);
       toast.success("Firma reddedildi");
       fetchPendingCompanies();
     } catch (error) {
