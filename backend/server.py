@@ -520,12 +520,35 @@ async def update_order_carpets(order_id: str, carpet_data: CompanyUpdateOrder, r
         total_area += carpet.area
         total_price += price
     
+    # Yeni üye indirimi kontrolü (1000 TL ve üzeri için %10)
+    discount_amount = 0
+    discount_percentage = 0
+    final_price = total_price
+    
+    if total_price >= 1000:
+        # Müşterinin bu ilk siparişi mi kontrol et
+        customer_id = order.get("customer_id")
+        if customer_id:
+            completed_orders_count = await db.orders.count_documents({
+                "customer_id": customer_id,
+                "status": "delivered"
+            })
+            
+            # İlk sipariş ise %10 indirim uygula
+            if completed_orders_count == 0:
+                discount_percentage = 10
+                discount_amount = total_price * 0.10
+                final_price = total_price - discount_amount
+    
     await db.orders.update_one(
         {"order_id": order_id},
         {"$set": {
             "actual_carpets": actual_carpets,
             "actual_total_area": total_area,
-            "actual_total_price": total_price
+            "actual_total_price": total_price,
+            "discount_percentage": discount_percentage,
+            "discount_amount": discount_amount,
+            "final_price": final_price
         }}
     )
     
