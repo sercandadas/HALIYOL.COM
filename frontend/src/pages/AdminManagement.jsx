@@ -419,8 +419,6 @@ const OrderForm = () => {
 
 // Excel Export Component
 export const ExportButtons = () => {
-  const { toast } = useToast();
-
   const handleExport = async (type) => {
     try {
       const response = await axios.get(`${API}/admin/export/${type}`, { responseType: "blob" });
@@ -431,9 +429,9 @@ export const ExportButtons = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
-      toast({ title: "Başarılı", description: "Dosya indirildi" });
+      toast.success("Dosya başarıyla indirildi");
     } catch (error) {
-      toast({ title: "Hata", description: "İndirme başarısız", variant: "destructive" });
+      toast.error("Dosya indirilemedi");
     }
   };
 
