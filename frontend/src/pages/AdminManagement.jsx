@@ -277,7 +277,7 @@ const CompanyForm = () => {
   );
 };
 
-const OrderForm = ({ toast }) => {
+const OrderForm = () => {
   const [customers, setCustomers] = useState([]);
   const [formData, setFormData] = useState({
     customer_id: "",
@@ -306,17 +306,17 @@ const OrderForm = ({ toast }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.customer_id || !formData.phone || !formData.city || !formData.address) {
-      toast({ title: "Hata", description: "Müşteri, telefon, şehir ve adres zorunludur", variant: "destructive" });
+      toast.error("Müşteri, telefon, şehir ve adres zorunludur");
       return;
     }
     
     setLoading(true);
     try {
       await axios.post(`${API}/admin/orders/create`, formData);
-      toast({ title: "Başarılı", description: "Sipariş oluşturuldu" });
+      toast.success("Sipariş başarıyla oluşturuldu");
       setFormData({ customer_id: "", phone: "", city: "", district: "", address: "", carpets: [{ carpet_type: "normal", width: "", length: "" }], special_notes: "" });
     } catch (error) {
-      toast({ title: "Hata", description: error.response?.data?.detail || "İşlem başarısız", variant: "destructive" });
+      toast.error(error.response?.data?.detail || "Sipariş oluşturulamadı");
     } finally {
       setLoading(false);
     }
