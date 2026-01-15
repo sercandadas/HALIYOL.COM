@@ -670,8 +670,10 @@ const AdminDashboard = ({ user, setUser }) => {
           <Route index element={<AdminHome user={user} />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="reports" element={<AdminReports />} />
+          <Route path="pending-companies" element={<PendingCompanies />} />
           <Route path="companies" element={<AdminCompanies />} />
           <Route path="users" element={<AdminUsers />} />
+          <Route path="create" element={<AdminCreate />} />
         </Routes>
       </main>
     </div>
