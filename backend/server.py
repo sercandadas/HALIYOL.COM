@@ -868,6 +868,301 @@ async def delete_user(user_id: str, request: Request):
     
     return {"message": "User deleted successfully"}
 
+# Admin: Firma Onay Sistemi
+@api_router.get("/admin/companies/pending")
+async def get_pending_companies(request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    companies = await db.companies.find({"is_approved": False}, {"_id": 0}).to_list(1000)
+    return {"companies": companies}
+
+@api_router.post("/admin/companies/{user_id}/approve")
+async def approve_company(user_id: str, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = await db.companies.update_one(
+        {"user_id": user_id},
+        {"$set": {"is_approved": True, "is_active": True, "approved_at": datetime.now(timezone.utc).isoformat()}}
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Company not found")
+    
+    return {"message": "Company approved successfully"}
+
+@api_router.post("/admin/companies/{user_id}/reject")
+async def reject_company(user_id: str, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Firmayı ve kullanıcıyı sil
+    await db.companies.delete_one({"user_id": user_id})
+    await db.users.delete_one({"user_id": user_id})
+    await db.user_sessions.delete_many({"user_id": user_id})
+    
+    return {"message": "Company rejected and deleted"}
+
+# Admin: Müşteri Oluşturma
+@api_router.post("/admin/customers/create")
+async def admin_create_customer(customer_data: dict, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Email kontrolü
+    existing = await db.users.find_one({"email": customer_data["email"]}, {"_id": 0})
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    user_id = f"user_{uuid.uuid4().hex[:12]}"
+    hashed_pw = hash_password(customer_data["password"])
+    
+    new_user = {
+        "user_id": user_id,
+        "email": customer_data["email"],
+        "name": customer_data["name"],
+        "password_hash": hashed_pw,
+        "role": "customer",
+        "phone": customer_data.get("phone"),
+        "city": customer_data.get("city"),
+        "district": customer_data.get("district"),
+        "address": customer_data.get("address"),
+        "is_banned": False,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_by_admin": True
+    }
+    
+    await db.users.insert_one(new_user)
+    new_user.pop("_id", None)
+    new_user.pop("password_hash", None)
+    
+    return {"message": "Customer created successfully", "user": new_user}
+
+# Admin: Firma Oluşturma
+@api_router.post("/admin/companies/create")
+async def admin_create_company(company_data: dict, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Email kontrolü
+    existing = await db.users.find_one({"email": company_data["email"]}, {"_id": 0})
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    user_id = f"user_{uuid.uuid4().hex[:12]}"
+    hashed_pw = hash_password(company_data["password"])
+    
+    new_user = {
+        "user_id": user_id,
+        "email": company_data["email"],
+        "name": company_data["company_name"],
+        "password_hash": hashed_pw,
+        "role": "company",
+        "phone": company_data["phone"],
+        "city": company_data.get("city"),
+        "district": None,
+        "address": company_data.get("address"),
+        "is_banned": False,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_by_admin": True
+    }
+    
+    await db.users.insert_one(new_user)
+    
+    company_profile = {
+        "user_id": user_id,
+        "company_name": company_data["company_name"],
+        "email": company_data["email"],
+        "phone": company_data["phone"],
+        "city": company_data.get("city", ""),
+        "districts": company_data.get("districts", []),
+        "address": company_data.get("address"),
+        "is_active": True,
+        "is_approved": True,
+        "total_area_washed": 0.0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "approved_at": datetime.now(timezone.utc).isoformat(),
+        "created_by_admin": True
+    }
+    
+    await db.companies.insert_one(company_profile)
+    
+    new_user.pop("_id", None)
+    new_user.pop("password_hash", None)
+    
+    return {"message": "Company created successfully", "user": new_user}
+
+# Admin: Sipariş Oluşturma
+@api_router.post("/admin/orders/create")
+async def admin_create_order(order_data: dict, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Müşteri kontrolü
+    customer = await db.users.find_one({"user_id": order_data["customer_id"], "role": "customer"}, {"_id": 0})
+    if not customer:
+        raise HTTPException(status_code=404, detail="Customer not found")
+    
+    carpet_details = []
+    for carpet in order_data["carpets"]:
+        area = carpet["width"] * carpet["length"]
+        carpet_details.append({
+            "carpet_type": carpet["carpet_type"],
+            "width": carpet["width"],
+            "length": carpet["length"],
+            "area": area
+        })
+    
+    order_id = f"ORD-{uuid.uuid4().hex[:8].upper()}"
+    
+    order = {
+        "order_id": order_id,
+        "customer_id": order_data["customer_id"],
+        "customer_name": customer.get("name", ""),
+        "customer_phone": order_data.get("phone", customer.get("phone")),
+        "customer_email": customer.get("email", ""),
+        "customer_address": order_data["address"],
+        "city": order_data["city"],
+        "district": order_data["district"],
+        "carpets": carpet_details,
+        "actual_carpets": [],
+        "actual_total_area": 0,
+        "actual_total_price": 0,
+        "discount_percentage": 0,
+        "discount_amount": 0,
+        "final_price": 0,
+        "carpet_count": len(carpet_details),
+        "special_notes": order_data.get("special_notes", ""),
+        "status": "pending",
+        "company_id": None,
+        "company_name": None,
+        "notified_companies": [],
+        "rejected_by": [],
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "created_by_admin": True,
+        "assigned_at": None,
+        "pickup_date": None,
+        "washing_date": None,
+        "delivery_date": None,
+        "cancelled_at": None,
+        "cancel_reason": None
+    }
+    
+    await db.orders.insert_one(order)
+    order.pop("_id", None)
+    
+    return {"message": "Order created successfully", "order": order}
+
+# Admin: Firmaya Sipariş Atama
+@api_router.post("/admin/orders/{order_id}/assign")
+async def admin_assign_order(order_id: str, assignment_data: dict, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    order = await db.orders.find_one({"order_id": order_id}, {"_id": 0})
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+    
+    company_id = assignment_data["company_id"]
+    company = await db.companies.find_one({"user_id": company_id}, {"_id": 0})
+    if not company:
+        raise HTTPException(status_code=404, detail="Company not found")
+    
+    await db.orders.update_one(
+        {"order_id": order_id},
+        {"$set": {
+            "company_id": company_id,
+            "company_name": company["company_name"],
+            "status": "assigned",
+            "assigned_at": datetime.now(timezone.utc).isoformat()
+        }}
+    )
+    
+    return {"message": "Order assigned successfully"}
+
+# Admin: Excel Export - Müşteriler
+@api_router.get("/admin/export/customers")
+async def export_customers(request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    customers = await db.users.find({"role": "customer"}, {"_id": 0, "password_hash": 0}).to_list(10000)
+    
+    # CSV formatında döndür
+    import io
+    output = io.StringIO()
+    output.write("User ID,Name,Email,Phone,City,District,Address,Created At,Is Banned\n")
+    
+    for customer in customers:
+        output.write(f'{customer.get("user_id","")},{customer.get("name","")},{customer.get("email","")},{customer.get("phone","")},{customer.get("city","")},{customer.get("district","")},{customer.get("address","")},{customer.get("created_at","")},{customer.get("is_banned","")}\n')
+    
+    from fastapi.responses import StreamingResponse
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=customers.csv"}
+    )
+
+# Admin: Excel Export - Firmalar
+@api_router.get("/admin/export/companies")
+async def export_companies(request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    companies = await db.companies.find({}, {"_id": 0}).to_list(10000)
+    
+    import io
+    output = io.StringIO()
+    output.write("User ID,Company Name,Email,Phone,City,Districts,Address,Is Active,Is Approved,Total Area Washed,Created At\n")
+    
+    for company in companies:
+        districts = ";".join(company.get("districts", []))
+        output.write(f'{company.get("user_id","")},{company.get("company_name","")},{company.get("email","")},{company.get("phone","")},{company.get("city","")},{districts},{company.get("address","")},{company.get("is_active","")},{company.get("is_approved","")},{company.get("total_area_washed","")},{company.get("created_at","")}\n')
+    
+    from fastapi.responses import StreamingResponse
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=companies.csv"}
+    )
+
+# Admin: Excel Export - Siparişler
+@api_router.get("/admin/export/orders")
+async def export_orders(request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    orders = await db.orders.find({}, {"_id": 0}).to_list(10000)
+    
+    import io
+    output = io.StringIO()
+    output.write("Order ID,Customer Name,Customer Email,Customer Phone,City,District,Address,Company Name,Status,Carpet Count,Total Area,Total Price,Discount,Final Price,Created At,Delivery Date\n")
+    
+    for order in orders:
+        output.write(f'{order.get("order_id","")},{order.get("customer_name","")},{order.get("customer_email","")},{order.get("customer_phone","")},{order.get("city","")},{order.get("district","")},{order.get("customer_address","")},{order.get("company_name","")},{order.get("status","")},{order.get("carpet_count","")},{order.get("actual_total_area","")},{order.get("actual_total_price","")},{order.get("discount_amount","")},{order.get("final_price","")},{order.get("created_at","")},{order.get("delivery_date","")}\n')
+    
+    from fastapi.responses import StreamingResponse
+    output.seek(0)
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=orders.csv"}
+    )
+
+
 @api_router.post("/admin/users/{user_id}/ban")
 async def ban_user(user_id: str, request: Request):
     admin = await get_current_user(request)
