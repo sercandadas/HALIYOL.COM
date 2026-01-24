@@ -326,50 +326,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Contact / Footer */}
-      <footer id="iletisim" className="py-16 px-4 bg-slate-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-2 mb-4">
-                <CarpetLogo className="w-10 h-10" />
-                <span className="text-xl font-bold text-white tracking-tight">HALIYOL</span>
-              </div>
-              <p className="text-slate-400 max-w-md">
-                Türkiye'nin en güvenilir halı yıkama platformu. Evinizin konforunu koruyoruz.
-              </p>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4">Hızlı Linkler</h4>
-              <div className="space-y-3">
-                <a href="#nasil-calisir" className="block text-slate-400 hover:text-orange-400 transition-colors">Nasıl Çalışır</a>
-                <a href="#hizmetler" className="block text-slate-400 hover:text-orange-400 transition-colors">Fiyatlar</a>
-              </div>
-            </div>
-            <div>
-              <h4 className="text-white font-semibold mb-4">İletişim</h4>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-slate-400">
-                  <Mail className="w-4 h-4" />
-                  <span>destekhaliyol@gmail.com</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-400">
-                  <Phone className="w-4 h-4" />
-                  <span>0850 123 45 55</span>
-                </div>
-                <div className="flex items-center gap-2 text-slate-400">
-                  <MapPin className="w-4 h-4" />
-                  <span>İstanbul, Türkiye</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
-            © 2024 HALIYOL. Tüm hakları saklıdır.
-          </div>
-        </div>
-      </footer>
-
       {/* Price Calculator Modal */}
       <Dialog open={priceModalOpen} onOpenChange={setPriceModalOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
