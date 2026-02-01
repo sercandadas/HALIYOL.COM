@@ -279,10 +279,26 @@ const LandingPage = () => {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
+              { type: "Antika Halı", price: "100", desc: "Değerli antika halılar" }, 
+              { type: "Shaggy Halı", price: "130", desc: "Uzun tüylü halılar" },
+              { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
+              { type: "Halı", price: "750", desc: "" },
+              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
+              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
               { type: "Normal Halı", price: "100", desc: "Standart dokuma halılar" },
               { type: "Shaggy Halı", price: "130", desc: "Uzun tüylü halılar" },
               { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
-              { type: "Antika Halı", price: "750", desc: "Değerli antika halılar" }
+              { type: "Halı", price: "750", desc: "" },
+              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
+              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},             {},
+              { type: "Normal Halı", price: "100", desc: "Standart dokuma halılar" },
+              { type: "Shaggy Halı", price: "130", desc: "Uzun tüylü halılar" },
+              { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
+              { type: "Halı", price: "750", desc: "" },
+              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
+              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
+              { type: "Normal Halı", price: "750", desc: "" },
+              
             ].map((item, index) => (
               <div 
                 key={index}
