@@ -29,9 +29,32 @@ const CARPET_TYPES = {
 
 const LandingPage = () => {
   const [priceModalOpen, setPriceModalOpen] = useState(false);
+  const [whatsappSettings, setWhatsappSettings] = useState({
+    whatsapp_number: "905551234567",
+    whatsapp_message: "Merhaba, halı yıkama hizmeti hakkında bilgi almak istiyorum."
+  });
   const [carpetList, setCarpetList] = useState([
     { id: 1, carpet_type: "normal", width: "", length: "" }
   ]);
+
+  useEffect(() => {
+    fetchWhatsAppSettings();
+  }, []);
+
+  const fetchWhatsAppSettings = async () => {
+    try {
+      const res = await axios.get(`${API}/api/public/settings`);
+      setWhatsappSettings(res.data);
+    } catch (error) {
+      console.error("WhatsApp ayarları yüklenemedi:", error);
+    }
+  };
+
+  const handleWhatsAppClick = () => {
+    const message = encodeURIComponent(whatsappSettings.whatsapp_message);
+    const url = `https://wa.me/${whatsappSettings.whatsapp_number}?text=${message}`;
+    window.open(url, '_blank');
+  };
 
   const addCarpet = () => {
     setCarpetList([...carpetList, { 
