@@ -868,6 +868,59 @@ async def delete_user(user_id: str, request: Request):
     
     return {"message": "User deleted successfully"}
 
+# Admin: Sistem Ayarları
+@api_router.get("/admin/settings")
+async def get_settings(request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    settings = await db.settings.find_one({"_id": "system_settings"}, {"_id": 0})
+    if not settings:
+        # Varsayılan ayarlar
+        settings = {
+            "_id": "system_settings",
+            "whatsapp_number": "905551234567",
+            "whatsapp_message": "Merhaba, halı yıkama hizmeti hakkında bilgi almak istiyorum.",
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        await db.settings.insert_one(settings)
+        settings.pop("_id", None)
+    
+    return {"settings": settings}
+
+@api_router.post("/admin/settings")
+async def update_settings(settings_data: dict, request: Request):
+    admin = await get_current_user(request)
+    if admin["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    settings_data["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.settings.update_one(
+        {"_id": "system_settings"},
+        {"$set": settings_data},
+        upsert=True
+    )
+    
+    return {"message": "Settings updated successfully"}
+
+# Public: Sistem Ayarlarını Getir (WhatsApp için)
+@api_router.get("/public/settings")
+async def get_public_settings():
+    settings = await db.settings.find_one({"_id": "system_settings"}, {"_id": 0})
+    if not settings:
+        settings = {
+            "whatsapp_number": "905551234567",
+            "whatsapp_message": "Merhaba, halı yıkama hizmeti hakkında bilgi almak istiyorum."
+        }
+    
+    # Sadece public bilgileri döndür
+    return {
+        "whatsapp_number": settings.get("whatsapp_number", "905551234567"),
+        "whatsapp_message": settings.get("whatsapp_message", "Merhaba, halı yıkama hizmeti hakkında bilgi almak istiyorum.")
+    }
+
 # Admin: Firma Onay Sistemi
 @api_router.get("/admin/companies/pending")
 async def get_pending_companies(request: Request):
