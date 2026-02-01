@@ -280,7 +280,7 @@ const LandingPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { type: "Antika Halı", price: "100", desc: "Değerli antika halılar" }, 
-              { type: "Shaggy Halı", price: "130", desc: "Uzun tüylü halılar" },
+              { type: "El dokuma", price: "130", desc: "El dokuma halılar" },
               { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
               { type: "Halı", price: "750", desc: "" },
               { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
@@ -315,9 +315,9 @@ const LandingPage = () => {
                         <span className="text-slate-500">₺/m²</span>
                       </div>
                     </div>
-                    <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-20 h-28 rounded-lg overflow-hidden flex-shrink-0">
                       <img 
-                        src="https://images.unsplash.com/photo-1585128792193-26cc8e6afd3c?w=200&h=200&fit=crop" 
+                        src="https://www.shutterstock.com/shutterstock/photos/2621192461/display_1500/stock-photo-antique-traditional-vintage-perasian-rug-2621192461.jpg" 
                         alt="Antika Halı"
                         className="w-full h-full object-cover"
                       />
@@ -337,6 +337,7 @@ const LandingPage = () => {
             ))}
           </div>
           <div className="text-center mt-8">
+            
             <Button 
               onClick={() => setPriceModalOpen(true)}
               className="bg-orange-500 hover:bg-orange-600 text-white rounded-full px-8 py-4"
