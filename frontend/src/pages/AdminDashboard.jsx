@@ -685,6 +685,7 @@ const AdminDashboard = ({ user, setUser }) => {
           <Route path="companies" element={<AdminCompanies />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="create" element={<AdminCreate />} />
+          <Route path="settings" element={<AdminSettings />} />
         </Routes>
       </main>
     </div>
