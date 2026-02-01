@@ -305,6 +305,15 @@ const LandingPage = () => {
                 className="bg-white rounded-2xl p-6 border border-orange-200 card-hover"
                 data-testid={`price-card-${index + 1}`}
               >
+                {item.type === "Antika Halı" && (
+                  <div className="mb-4 rounded-lg overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1600166898405-da9535204843?w=400&h=250&fit=crop" 
+                      alt="Antika Halı"
+                      className="w-full h-32 object-cover"
+                    />
+                  </div>
+                )}
                 <h3 className="text-lg font-bold text-slate-800 mb-2">{item.type}</h3>
                 <p className="text-sm text-slate-500 mb-4">{item.desc}</p>
                 <div className="flex items-baseline gap-1">
