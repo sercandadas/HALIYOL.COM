@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowRight, Truck, Shield, Clock, Star, Phone, Mail, MapPin, Calculator, Ruler, Plus, X, AlertCircle } from "lucide-react";
+import { ArrowRight, Truck, Shield, Clock, Star, Phone, Mail, MapPin, Calculator, Ruler, Plus, X, AlertCircle, MessageCircle } from "lucide-react";
+
+const API = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
 
 // Halı motifi SVG - basit ve etkili
 const CarpetLogo = ({ className }) => (
