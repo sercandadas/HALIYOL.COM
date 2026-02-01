@@ -536,6 +536,18 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* WhatsApp Floating Button */}
+      <button
+        onClick={handleWhatsAppClick}
+        className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-2xl transition-all duration-300 hover:scale-110 group"
+        aria-label="WhatsApp ile iletişime geç"
+      >
+        <MessageCircle className="w-7 h-7" />
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-slate-800 text-white px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          WhatsApp ile sipariş ver
+        </span>
+      </button>
+
       {/* Footer */}
       <footer className="bg-slate-900 text-white py-12 px-4">
         <div className="max-w-6xl mx-auto">
