@@ -53,7 +53,8 @@ const Sidebar = ({ user, onLogout, mobileOpen, setMobileOpen }) => {
     { path: "/admin/pending-companies", icon: <Building2 className="w-5 h-5" />, label: "Onay Bekleyen Firmalar" },
     { path: "/admin/companies", icon: <Building2 className="w-5 h-5" />, label: "Firmalar" },
     { path: "/admin/users", icon: <Users className="w-5 h-5" />, label: "Müşteriler" },
-    { path: "/admin/create", icon: <FileText className="w-5 h-5" />, label: "Yeni Oluştur" }
+    { path: "/admin/create", icon: <FileText className="w-5 h-5" />, label: "Yeni Oluştur" },
+    { path: "/admin/settings", icon: <Settings className="w-5 h-5" />, label: "Ayarlar" }
   ];
 
   const SidebarContent = () => (
