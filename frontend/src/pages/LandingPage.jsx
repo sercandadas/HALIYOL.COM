@@ -277,35 +277,44 @@ const LandingPage = () => {
               Her türlü halı için profesyonel yıkama hizmeti
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            
             {[
-              { type: "Antika Halı", price: "100", desc: "Değerli antika halılar" }, 
-              { type: "El dokuma", price: "130", desc: "El dokuma halılar" },
-              { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
-              { type: "Halı", price: "750", desc: "" },
-              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
-              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
-              { type: "Normal Halı", price: "100", desc: "Standart dokuma halılar" },
-              { type: "Shaggy Halı", price: "130", desc: "Uzun tüylü halılar" },
-              { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
-              { type: "Halı", price: "750", desc: "" },
-              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
-              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},             {},
-              { type: "Normal Halı", price: "100", desc: "Standart dokuma halılar" },
-              { type: "Shaggy Halı", price: "130", desc: "Uzun tüylü halılar" },
-              { type: "İpek Halı", price: "500", desc: "Hassas ipek halılar" },
-              { type: "Halı", price: "750", desc: "" },
-              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
-              { type: "Bambu Halı", price: "200", desc: "Bambu halılar"},
-              { type: "Normal Halı", price: "750", desc: "" },
-              
+              { type: "Makine Halısı", price: "115"}, 
+              { type: "Shaggy Halı", price:"150"},
+              { type: "Bambu Halı", price: "200"},
+              { type: "Viskon Halı", price: "200"},
+              { type: "Akrilik Halı", price: "180"},
+              { type: "Kilim", price: "150"},
+              { type: "El Dokuma", price: "250"},
+              { type: "Yün Halı", price: "200"},
+              { type: "Isparta Halısı", price: "200"},
+              { type: "Hasır Halı", price: "200"},
+              { type: "Hereke Halısı", price: "225"},
+              { type: "Ladik Halısı", price: "225"},            
+              { type: "Step Halı", price: "225"},
+              { type: "Uşak Halısı", price: "225"},
+              { type: "Çin Halısı", price: "225"},
+              { type: "Afgan Halısı", price: "275"},
+              { type: "Bünyan Halı", price: "275"},
+              { type: "İran Halısı", price: "300"},
+              { type: "İpek Halı", price: "350"},
+              { type: "Nepal Halısı", price: "250"},
+              { type: "Deri Halı", price: "250"},
+              { type: "Patchwork", price: "250"},
+              { type: "Yağcıbedir", price: "250"},
+
             ].map((item, index) => (
               <div 
                 key={index}
                 className="bg-white rounded-2xl p-6 border border-orange-200 card-hover"
                 data-testid={`price-card-${index + 1}`}
               >
-                {item.type === "Antika Halı" || item.type === "El dokuma" ? (
+                {item.type === "Makine Halısı" || item.type === "Shaggy Halı" || item.type === "Bambu Halı" || item.type === "Viskon Halı" || item.type === "Akrilik Halı" ||
+                 item.type === "Kilim" || item.type === "El Dokuma" || item.type === "Yün Halı" || item.type === "Isparta Halısı" || item.type === "Hasır Halı" ||
+                 item.type === "Hereke Halısı" || item.type === "Ladik Halısı" || item.type === "Step Halı" || item.type === "Uşak Halısı" || item.type === "Çin Halısı" ||
+                 item.type === "Afgan Halısı" || item.type === "Bünyan Halı" || item.type === "İran Halısı" || item.type === "İpek Halı" || item.type === "Nepal Halısı" ||
+                 item.type === "Deri Halı" || item.type === "Patchwork" || item.type === "Yağcıbedir" ? ( 
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-slate-800 mb-2">{item.type}</h3>
@@ -315,14 +324,16 @@ const LandingPage = () => {
                         <span className="text-slate-500">₺/m²</span>
                       </div>
                     </div>
-                    <div className="w-20 h-28 rounded-lg overflow-hidden flex-shrink-0">
+                    <div className="w-24 h-30 rounded-sm overflow-hidden flex-shrink-0">
                       <img 
-                        src={item.type === "El dokuma" 
-                          ? "https://images.unsplash.com/photo-1610178722940-96db324e621e?w=200&h=200&fit=crop"
-                          : "https://www.shutterstock.com/shutterstock/photos/2621192461/display_1500/stock-photo-antique-traditional-vintage-perasian-rug-2621192461.jpg"
+                        src={item.type === "Makine Halısı"
+                          ? "https://lekesepeti.com/_next/image?url=%2Fassets%2Fproduct-images%2Fmakine-halisi.webp&w=1920&q=75"
+                          : "/images/yeni-son-25.png"
                         }
                         alt={item.type}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>
