@@ -305,7 +305,7 @@ const LandingPage = () => {
                 className="bg-white rounded-2xl p-6 border border-orange-200 card-hover"
                 data-testid={`price-card-${index + 1}`}
               >
-                {item.type === "Antika Halı" ? (
+                {item.type === "Antika Halı" || item.type === "El dokuma" ? (
                   <div className="flex items-center gap-4">
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-slate-800 mb-2">{item.type}</h3>
@@ -317,8 +317,11 @@ const LandingPage = () => {
                     </div>
                     <div className="w-20 h-28 rounded-lg overflow-hidden flex-shrink-0">
                       <img 
-                        src="https://www.shutterstock.com/shutterstock/photos/2621192461/display_1500/stock-photo-antique-traditional-vintage-perasian-rug-2621192461.jpg" 
-                        alt="Antika Halı"
+                        src={item.type === "El dokuma" 
+                          ? "https://images.unsplash.com/photo-1610178722940-96db324e621e?w=200&h=200&fit=crop"
+                          : "https://www.shutterstock.com/shutterstock/photos/2621192461/display_1500/stock-photo-antique-traditional-vintage-perasian-rug-2621192461.jpg"
+                        }
+                        alt={item.type}
                         className="w-full h-full object-cover"
                       />
                     </div>
