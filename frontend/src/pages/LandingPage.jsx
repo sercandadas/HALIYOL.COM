@@ -305,21 +305,34 @@ const LandingPage = () => {
                 className="bg-white rounded-2xl p-6 border border-orange-200 card-hover"
                 data-testid={`price-card-${index + 1}`}
               >
-                {item.type === "Antika Halı" && (
-                  <div className="mb-4 rounded-lg overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1600166898405-da9535204843?w=400&h=250&fit=crop" 
-                      alt="Antika Halı"
-                      className="w-full h-32 object-cover"
-                    />
+                {item.type === "Antika Halı" ? (
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                      <h3 className="text-lg font-bold text-slate-800 mb-2">{item.type}</h3>
+                      <p className="text-sm text-slate-500 mb-4">{item.desc}</p>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl font-bold text-orange-500">{item.price}</span>
+                        <span className="text-slate-500">₺/m²</span>
+                      </div>
+                    </div>
+                    <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+                      <img 
+                        src="https://images.unsplash.com/photo-1585128792193-26cc8e6afd3c?w=200&h=200&fit=crop" 
+                        alt="Antika Halı"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   </div>
+                ) : (
+                  <>
+                    <h3 className="text-lg font-bold text-slate-800 mb-2">{item.type}</h3>
+                    <p className="text-sm text-slate-500 mb-4">{item.desc}</p>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-bold text-orange-500">{item.price}</span>
+                      <span className="text-slate-500">₺/m²</span>
+                    </div>
+                  </>
                 )}
-                <h3 className="text-lg font-bold text-slate-800 mb-2">{item.type}</h3>
-                <p className="text-sm text-slate-500 mb-4">{item.desc}</p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-orange-500">{item.price}</span>
-                  <span className="text-slate-500">₺/m²</span>
-                </div>
               </div>
             ))}
           </div>
